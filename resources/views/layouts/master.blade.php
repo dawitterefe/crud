@@ -13,7 +13,7 @@
 
     <nav class="navbar" style="background-color: rgba(0, 0, 0, 0.2);">
         <div class="container-fluid">
-          <a class="navbar-brand"> <strong> Blogger </strong> </a>
+          <a class="navbar-brand"> <strong> Ge'ez Blogger </strong> </a>
         </div>
       </nav>
 

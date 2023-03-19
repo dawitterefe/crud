@@ -16,7 +16,7 @@ class PostController extends Controller
     public function index()
     {
 
-        $posts = Post::all();
+        $posts = Post::paginate(4);
         return view('index', compact('posts'));
     }
 
@@ -63,7 +63,11 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+
+        $post = Post::findOrFail($id);
+
+
+        return view('show', compact('post'));
     }
 
     /**
@@ -124,6 +128,44 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
+        $post = Post::findOrFail($id);
+
+        $post->delete();
+
+        return redirect()->route('posts.index');
+    }
+
+    public function trashed()
+    {
+        $posts = Post::onlyTrashed()->get();
+
+        return view('trashed', compact('posts'));
+
+    }
+
+
+    public function restore($id)
+    {
+      $post = Post::onlyTrashed()->findOrFail($id);
+
+      $post->restore();
+
+     return redirect()->back();
+    }
+
+
+    public function forceDelete($id)
+    {
+        $post = Post::onlyTrashed()->findOrFail($id);
+
+        unlink(public_path($post->image));
+
+        $post->forceDelete();
+
+        return redirect()->back();
+
     }
 }
+
+

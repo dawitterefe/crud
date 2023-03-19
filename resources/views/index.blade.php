@@ -15,7 +15,7 @@
 
           <div class="col d-flex justify-content-end">
             <a class="btn btn-success mx-1" href="{{route('posts.create')}}">Create</a>
-            <a class="btn btn-warning mx-1" href="">Trashed</a>
+            <a class="btn btn-warning mx-1" href="{{route('posts.trashed')}}">Trashed</a>
           </div>
 
           </div>
@@ -48,13 +48,26 @@
                         </td>
                         <td>{{$post->title}}</td>
                         <td>{{$post->description}}</td>
-                        <td>{{$post->category_id}}</td>
+                        <td>{{$post->category->name}}</td>
                         <td>{{date('d-m-Y',strtotime($post->created_at))}}</td>
                         <td>
 
-                        <a class="btn btn-success btn-sm" href="{{route('posts.show',$post->id)}}">Show</a>
-                        <a class="btn btn-primary btn-sm" href="{{route('posts.edit',$post->id)}}">Edit</a>
-                        <a class="btn btn-danger btn-sm" href="{{route('posts.destroy',$post->id)}}">Delete</a>
+                       <div class="d-flex mt-2">
+
+                            <a class="btn btn-success btn-sm mx-1" href="{{route('posts.show',$post->id)}}">Show</a>
+                            <a class="btn btn-primary btn-sm mx-1" href="{{route('posts.edit',$post->id)}}">Edit</a>
+                            {{-- <a class="btn btn-danger btn-sm" href="{{route('posts.destroy',$post->id)}}">Delete</a> --}}
+
+                            <form action="{{route('posts.destroy',$post->id)}}" method="POST" class="mx-1">
+
+                                @csrf
+
+                                @method('DELETE')
+
+                                <button class="btn btn-danger btn-sm"> Delete </button>
+                            </form>
+
+                       </div>
 
                         </td>
 
@@ -63,12 +76,9 @@
 
                     @endforeach
 
-
-
-
                 </tbody>
-                </table>
-
+            </table>
+                {{$posts->links()}}
 
         </div>
     </div>
